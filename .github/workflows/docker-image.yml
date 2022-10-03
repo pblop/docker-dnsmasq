@@ -27,4 +27,4 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386
         push: true
-        tags: pblop/dnsmasq:${{ steps.commit_vars.outputs.sha_short }}
+        tags: pblop/dnsmasq:${{ steps.commit_vars.outputs.sha_short }}, pblop/dnsmasq:latest
