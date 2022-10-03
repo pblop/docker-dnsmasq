@@ -1,9 +1,10 @@
 # docker-dnsmasq
 
-dnsmasq in a docker container, configurable via a [simple web UI](https://github.com/jpillora/webproc)
+dnsmasq in a docker container, configurable via a [simple web UI](https://github.com/jpillora/webproc).
+This fork's docker container also includes a Prometheus [dnsmasq_exporter](https://github.com/pblop/dnsmasq_exporter).
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/jpillora/dnsmasq.svg)][dockerhub]
-[![Image Size](https://images.microbadger.com/badges/image/jpillora/dnsmasq.svg)][dockerhub]
+[![Docker Pulls](https://img.shields.io/docker/pulls/pblop/dnsmasq.svg)][dockerhub]
+[![Image Size](https://images.microbadger.com/badges/image/pblop/dnsmasq.svg)][dockerhub]
 
 ### Usage
 
@@ -29,7 +30,7 @@ dnsmasq in a docker container, configurable via a [simple web UI](https://github
    address=/myhost.company/10.0.0.2
    ```
 
-1. Run the container
+2. Run the container
 
    ```
    $ docker run \
@@ -37,19 +38,20 @@ dnsmasq in a docker container, configurable via a [simple web UI](https://github
    	-d \
    	-p 53:53/udp \
    	-p 5380:8080 \
+   	-p 9153:9153 \      
    	-v /opt/dnsmasq.conf:/etc/dnsmasq.conf \
    	--log-opt "max-size=100m" \
    	-e "HTTP_USER=foo" \
    	-e "HTTP_PASS=bar" \
    	--restart always \
-   	jpillora/dnsmasq
+   	pblop/dnsmasq
    ```
 
-1. Visit `http://<docker-host>:5380`, authenticate with `foo/bar` and you should see
+3. Visit `http://<docker-host>:5380`, authenticate with `foo/bar` and you should see
 
    <img width="833" alt="screen shot 2017-10-15 at 1 41 21 am" src="https://user-images.githubusercontent.com/633843/31580966-baacba62-b1a9-11e7-8439-ca1ddfe828dd.png">
 
-1. Test it out with
+4. Test it out with
 
    ```
    $ host myhost.company <docker-host>
@@ -59,6 +61,14 @@ dnsmasq in a docker container, configurable via a [simple web UI](https://github
    Aliases:
 
    myhost.company has address 10.0.0.2
+   ```
+5. Then, add the endpoint to your Prometheus configuration file:
+   
+   ```
+   scrape_configs:
+     - job_name: dnsmasq
+       static_configs:
+         - targets: ['localhost:9153']
    ```
 
 #### MIT License
