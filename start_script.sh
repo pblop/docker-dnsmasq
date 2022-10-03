@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Start dnsmasq_exporter 
-dnsmasq_exporter &
+dnsmasq_exporter --listen 0.0.0.0:9153 &
 ID=$!
 
 # Start dnsmasq through webproc
