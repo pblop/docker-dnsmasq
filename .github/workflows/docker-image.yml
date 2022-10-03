@@ -20,10 +20,13 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Get short commit hash
+      id: commit_vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
         context: .
         platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6,linux/386
         push: true
-        tags: pblop/dnsmasq:latest
+        tags: pblop/dnsmasq:${{ steps.commit_vars.outputs.sha_short }}
