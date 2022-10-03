@@ -3,7 +3,7 @@ LABEL maintainer="pablo@pabl.eu"
 
 # this shows us what various BuildKit arguments are based on the 
 # docker buildx build --platform= option you give Docker.
-ARG TARGETPLATFORM
+ARG TARGETOS
 ARG TARGETARCH
 ARG TARGETVARIANT
 
