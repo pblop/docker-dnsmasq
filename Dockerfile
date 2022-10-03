@@ -1,5 +1,12 @@
 FROM alpine:3.15
 LABEL maintainer="pablo@pabl.eu"
+
+# this shows us what various BuildKit arguments are based on the 
+# docker buildx build --platform= option you give Docker.
+ARG TARGETPLATFORM
+ARG TARGETARCH
+ARG TARGETVARIANT
+
 # webproc release settings
 ENV WEBPROC_VERSION 0.4.0
 ENV WEBPROC_URL "https://github.com/jpillora/webproc/releases/download/v${WEBPROC_VERSION}/webproc_${WEBPROC_VERSION}_${TARGETOS}_${TARGETARCH}${TARGETVARIANT}.gz"
